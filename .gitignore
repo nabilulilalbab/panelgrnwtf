@@ -19,4 +19,7 @@ bin-release/
 rclone.conf
 *.backup
 *.conf
+# Allow essential config files needed by installer
+!config/nginx.conf
+!config/vps.conf
 !config/*.conf.example
