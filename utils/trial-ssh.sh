@@ -24,15 +24,19 @@ echo ""
 # Select duration
 duration=$(select_duration)
 
+# Debug: Check if duration was captured
 if [ "$duration" == "0" ] || [ -z "$duration" ]; then
-    echo -e "${RED}Invalid duration!${NC}"
-    read -p "Press Enter to continue..."
+    echo -e "${RED}Invalid duration! Got: [$duration]${NC}" > /dev/tty
+    read -p "Press Enter to continue..." < /dev/tty
     exit 1
 fi
 
-echo ""
-echo -e "${YELLOW}Creating SSH trial account...${NC}"
-echo ""
+# Clean duration value (remove any whitespace/newlines)
+duration=$(echo "$duration" | tr -d '\n\r ' | grep -o '[0-9]*' | head -1)
+
+echo "" > /dev/tty
+echo -e "${YELLOW}Creating SSH trial account (${duration}h)...${NC}" > /dev/tty
+echo "" > /dev/tty
 
 # Generate credentials
 username=$(generate_unique_trial_username)
