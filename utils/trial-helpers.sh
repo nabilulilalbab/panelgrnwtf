@@ -105,14 +105,14 @@ save_trial_info() {
     
     cat > "$config_file" << EOF
 # Trial Account Configuration
-USERNAME=$username
-PASSWORD=$password
-UUID=$uuid
-CREATED=$(date "+%Y-%m-%d %H:%M:%S")
-EXPIRES=$expires
-DURATION=${duration}h
-TYPE=$type
-STATUS=active
+USERNAME="$username"
+PASSWORD="$password"
+UUID="$uuid"
+CREATED="$(date "+%Y-%m-%d %H:%M:%S")"
+EXPIRES="$expires"
+DURATION="${duration}h"
+TYPE="$type"
+STATUS="active"
 EOF
     
     chmod 600 "$config_file"
