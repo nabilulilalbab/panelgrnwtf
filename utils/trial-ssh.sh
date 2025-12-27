@@ -29,15 +29,15 @@ duration=$(echo "$duration_raw" | tr -d '\n\r\t ' | grep -o '[0-9][0-9]*' | head
 
 # Validate duration
 if [ -z "$duration" ] || [ "$duration" -eq 0 ] 2>/dev/null; then
-    echo -e "${RED}Invalid duration! Could not extract number from input.${NC}" > /dev/tty
-    echo -e "${YELLOW}Debug: Raw value was: [$duration_raw]${NC}" > /dev/tty
-    read -p "Press Enter to continue..." < /dev/tty
+    echo -e "${RED}Invalid duration! Could not extract number from input.${NC}"
+    echo -e "${YELLOW}Debug: Raw value was: [$duration_raw]${NC}"
+    read -p "Press Enter to continue..."
     exit 1
 fi
 
-echo "" > /dev/tty
-echo -e "${YELLOW}Creating SSH trial account (${duration}h)...${NC}" > /dev/tty
-echo "" > /dev/tty
+echo ""
+echo -e "${YELLOW}Creating SSH trial account (${duration}h)...${NC}"
+echo ""
 
 # Generate credentials
 username=$(generate_unique_trial_username)
