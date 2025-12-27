@@ -147,7 +147,8 @@ select_duration() {
     echo "  [5] 24 Hours" >&2
     echo "  [6] Custom (enter hours)" >&2
     echo "" >&2
-    read -p "Select [1-6]: " duration_choice
+    echo -n "Select [1-6]: " >&2
+    read duration_choice
     
     case $duration_choice in
         1) echo "1" ;;
@@ -156,7 +157,8 @@ select_duration() {
         4) echo "12" ;;
         5) echo "24" ;;
         6)
-            read -p "Enter hours (1-72): " custom_hours >&2
+            echo -n "Enter hours (1-72): " >&2
+            read custom_hours
             if [[ "$custom_hours" =~ ^[0-9]+$ ]] && [ "$custom_hours" -ge 1 ] && [ "$custom_hours" -le 72 ]; then
                 echo "$custom_hours"
             else
