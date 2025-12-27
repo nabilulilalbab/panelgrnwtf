@@ -1,0 +1,2 @@
+# XRAY IP Limiter Auto-Monitor
+*/5 * * * * root /usr/bin/xray-iplimit monitor >> /var/log/xray/iplimit-cron.log 2>&1

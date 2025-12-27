@@ -1,0 +1,261 @@
+
+# ============================================
+# QUOTA MANAGEMENT FUNCTIONS
+# ============================================
+
+# Query user traffic from XRAY API
+query_user_traffic() {
+    local user="$1"
+    local uplink=$(xray api statsquery --server=127.0.0.1:10085 --pattern "user>>>${user}>>>traffic>>>uplink" 2>/dev/null | grep '"value":' | awk '{print $2}' | tr -d ',')
+    local downlink=$(xray api statsquery --server=127.0.0.1:10085 --pattern "user>>>${user}>>>traffic>>>downlink" 2>/dev/null | grep '"value":' | awk '{print $2}' | tr -d ',')
+    uplink=${uplink:-0}
+    downlink=${downlink:-0}
+    echo $((uplink + downlink))
+}
+
+# Set quota for user
+set_quota() {
+    local user="$1"
+    local quota_gb="$2"
+    
+    # Validate
+    if [ -z "$user" ] || [ -z "$quota_gb" ]; then
+        echo -e "${RED}✗${NC} Usage: set_quota USERNAME QUOTA_GB"
+        return 1
+    fi
+    
+    # Get current traffic
+    local current_traffic=$(query_user_traffic "$user")
+    local start_time=$(date +%s)
+    
+    # Remove old entry
+    sed -i "/^${user}:/d" "$QUOTA_CONFIG"
+    
+    # Add new entry
+    echo "${user}:${quota_gb}:${current_traffic}:${start_time}" >> "$QUOTA_CONFIG"
+    
+    echo -e "${GREEN}✓${NC} Quota set for user: ${CYAN}${user}${NC}"
+    echo -e "  Quota: ${GREEN}${quota_gb} GB${NC}"
+    echo -e "  Initial traffic: ${current_traffic} bytes"
+    log_msg "[QUOTA] Set quota for '${user}': ${quota_gb} GB"
+}
+
+# Check quota for user
+check_quota() {
+    local user="$1"
+    
+    local line=$(grep "^${user}:" "$QUOTA_CONFIG")
+    if [ -z "$line" ]; then
+        echo -e "${RED}✗${NC} No quota set for ${user}"
+        return 1
+    fi
+    
+    local quota_gb=$(echo $line | cut -d: -f2)
+    local initial_traffic=$(echo $line | cut -d: -f3)
+    
+    local current_traffic=$(query_user_traffic "$user")
+    local used_bytes=$((current_traffic - initial_traffic))
+    local quota_bytes=$((quota_gb * 1073741824))
+    
+    local percentage=0
+    if [ $quota_bytes -gt 0 ]; then
+        percentage=$((used_bytes * 100 / quota_bytes))
+    fi
+    
+    local used_gb=$(echo "scale=2; $used_bytes / 1073741824" | bc)
+    
+    local status="${GREEN}OK${NC}"
+    local status_icon="✓"
+    if [ $used_bytes -gt $quota_bytes ]; then
+        status="${RED}EXCEEDED${NC}"
+        status_icon="⚠"
+    fi
+    
+    echo -e "${BLUE}${user}${NC}"
+    echo -e "  Quota: ${GREEN}${quota_gb} GB${NC}"
+    echo -e "  Used: ${CYAN}${used_gb} GB${NC} (${percentage}%)"
+    echo -e "  Status: ${status_icon} ${status}"
+    
+    [ $used_bytes -gt $quota_bytes ] && return 1
+    return 0
+}
+
+# Disable user due to quota exceeded
+disable_user_quota() {
+    local user="$1"
+    
+    if grep -q "#QUOTA_EXCEEDED_.*${user}" "$XRAY_CONFIG"; then
+        return 0
+    fi
+    
+    local backup_file="${BACKUP_DIR}/config_quota_$(date +%Y%m%d_%H%M%S).json"
+    cp "$XRAY_CONFIG" "$backup_file"
+    
+    local uuid=$(grep "email.*${user}" "$XRAY_CONFIG" | grep -oP '(?<="id": ")[^"]+' | head -1)
+    if [ -z "$uuid" ]; then
+        uuid=$(grep -B 2 "email.*${user}" "$XRAY_CONFIG" | grep "password" | grep -oP '(?<="password": ")[^"]+' | head -1)
+    fi
+    
+    if [ -z "$uuid" ]; then
+        log_msg "${RED}[QUOTA ERROR]${NC} Cannot find UUID for ${user}"
+        return 1
+    fi
+    
+    local temp_file="/tmp/xray_quota_$$.json"
+    cp "$XRAY_CONFIG" "$temp_file"
+    
+    sed -i "/.*${user}.*/s/^[^#]/#QUOTA_EXCEEDED_&/" "$temp_file"
+    sed -i "/.*${uuid}.*/s/^[^#]/#QUOTA_EXCEEDED_&/" "$temp_file"
+    sed -i "s/^###\(.*${user}.*\)/#QUOTA_EXCEEDED_###\1/" "$temp_file"
+    
+    mv "$temp_file" "$XRAY_CONFIG"
+    systemctl restart xray > /dev/null 2>&1
+    sleep 2
+    
+    if systemctl is-active --quiet xray; then
+        log_msg "${RED}[QUOTA EXCEEDED]${NC} User '${user}' disabled"
+        return 0
+    else
+        log_msg "${RED}[CRITICAL]${NC} XRAY failed! Restoring..."
+        cp "$backup_file" "$XRAY_CONFIG"
+        systemctl restart xray
+        return 1
+    fi
+}
+
+# Enable user (remove quota exceeded flag)
+enable_user_quota() {
+    local user="$1"
+    
+    local backup_file="${BACKUP_DIR}/config_quota_$(date +%Y%m%d_%H%M%S).json"
+    cp "$XRAY_CONFIG" "$backup_file"
+    
+    sed -i "s/^#QUOTA_EXCEEDED_\+\(.*${user}.*\)/\1/g" "$XRAY_CONFIG"
+    sed -i "s/^#QUOTA_EXCEEDED_###\(.*${user}.*\)/###\1/g" "$XRAY_CONFIG"
+    
+    local uuid=$(grep "email.*${user}" "$XRAY_CONFIG" | grep -oP '(?<="id": ")[^"]+' | head -1)
+    if [ -z "$uuid" ]; then
+        uuid=$(grep -B 2 "email.*${user}" "$XRAY_CONFIG" | grep "password" | grep -oP '(?<="password": ")[^"]+' | head -1)
+    fi
+    
+    if [ ! -z "$uuid" ]; then
+        sed -i "s/^#QUOTA_EXCEEDED_\+\(.*${uuid}.*\)/\1/g" "$XRAY_CONFIG"
+    fi
+    
+    systemctl restart xray > /dev/null 2>&1
+    sleep 2
+    
+    if systemctl is-active --quiet xray; then
+        log_msg "${GREEN}[QUOTA RESET]${NC} User '${user}' re-enabled"
+        return 0
+    else
+        cp "$backup_file" "$XRAY_CONFIG"
+        systemctl restart xray
+        return 1
+    fi
+}
+
+# Monitor all users with quota
+monitor_quota() {
+    log_msg "${GREEN}[QUOTA MONITOR]${NC} Starting quota monitoring..."
+    
+    local exceeded_count=0
+    
+    grep -v '^#' "$QUOTA_CONFIG" | grep -v '^$' | while IFS=: read user quota_gb initial_traffic start_time; do
+        [ -z "$user" ] && continue
+        
+        local current_traffic=$(query_user_traffic "$user")
+        local used_bytes=$((current_traffic - initial_traffic))
+        local quota_bytes=$((quota_gb * 1073741824))
+        
+        local used_gb=$(echo "scale=2; $used_bytes / 1073741824" | bc)
+        
+        log_msg "[QUOTA CHECK] ${user}: ${used_gb}/${quota_gb} GB"
+        
+        if [ $used_bytes -gt $quota_bytes ]; then
+            log_msg "${RED}[QUOTA EXCEEDED]${NC} ${user}: ${used_gb}/${quota_gb} GB"
+            
+            disable_user_quota "$user"
+            
+            # Send Telegram notification
+            send_telegram "⚠️ *User Quota Exceeded*
+
+User: \`${user}\`
+Quota: *${quota_gb} GB*
+Used: *${used_gb} GB*
+
+Action: ❌ User disabled in XRAY
+Date: \`$(date '+%Y-%m-%d %H:%M:%S')\`"
+            
+            exceeded_count=$((exceeded_count + 1))
+        fi
+    done
+    
+    log_msg "${BLUE}[QUOTA MONITOR]${NC} Monitoring completed"
+}
+
+# Show quota status for all users
+show_quota_status() {
+    echo -e "\n${GREEN}╔════════════════════════════════════════╗${NC}"
+    echo -e "${GREEN}║      XRAY Quota Status                 ║${NC}"
+    echo -e "${GREEN}╚════════════════════════════════════════╝${NC}\n"
+    
+    if [ ! -s "$QUOTA_CONFIG" ]; then
+        echo -e "${YELLOW}No users with quota set${NC}\n"
+        return
+    fi
+    
+    grep -v '^#' "$QUOTA_CONFIG" | grep -v '^$' | while IFS=: read user quota_gb initial_traffic start_time; do
+        [ -z "$user" ] && continue
+        
+        local current_traffic=$(query_user_traffic "$user")
+        local used_bytes=$((current_traffic - initial_traffic))
+        local quota_bytes=$((quota_gb * 1073741824))
+        
+        local percentage=0
+        if [ $quota_bytes -gt 0 ]; then
+            percentage=$((used_bytes * 100 / quota_bytes))
+        fi
+        
+        local used_gb=$(echo "scale=2; $used_bytes / 1073741824" | bc)
+        
+        local status_color=$GREEN
+        local status_icon="✓"
+        if [ $used_bytes -gt $quota_bytes ]; then
+            status_color=$RED
+            status_icon="⚠"
+        elif [ $percentage -gt 80 ]; then
+            status_color=$YELLOW
+            status_icon="!"
+        fi
+        
+        echo -e "  ${BLUE}▸${NC} ${user}"
+        echo -e "    Quota: ${GREEN}${quota_gb} GB${NC}"
+        echo -e "    Used:  ${CYAN}${used_gb} GB${NC} (${percentage}%)"
+        echo -e "    Status: ${status_icon} ${status_color}$([ $used_bytes -gt $quota_bytes ] && echo 'EXCEEDED' || echo 'OK')${NC}"
+        echo ""
+    done
+}
+
+# Reset quota for user
+reset_quota() {
+    local user="$1"
+    
+    local line=$(grep "^${user}:" "$QUOTA_CONFIG")
+    if [ -z "$line" ]; then
+        echo -e "${RED}✗${NC} No quota set for ${user}"
+        return 1
+    fi
+    
+    local quota_gb=$(echo $line | cut -d: -f2)
+    
+    # Re-enable user if disabled
+    enable_user_quota "$user"
+    
+    # Reset quota with current traffic as new baseline
+    set_quota "$user" "$quota_gb"
+    
+    echo -e "${GREEN}✓${NC} Quota reset for ${CYAN}${user}${NC}"
+    log_msg "[QUOTA RESET] ${user}: quota reset to ${quota_gb} GB"
+}
+

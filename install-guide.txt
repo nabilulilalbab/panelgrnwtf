@@ -1,0 +1,77 @@
+╔════════════════════════════════════════════════════════════════╗
+║                                                                ║
+║           XRAY IP LIMITER - Installation Package              ║
+║                    Multi-VPS Edition v3.1                     ║
+║                                                                ║
+╚════════════════════════════════════════════════════════════════╝
+
+📦 PACKAGE CONTENTS:
+───────────────────────────────────────────────────────────────
+✓ xray-iplimit.sh              - Main script (11KB)
+✓ menu-xray-iplimit.sh         - Interactive menu (4.5KB)
+✓ install-xray-iplimit.sh      - Auto installer (7.3KB)
+✓ sync-config.sh               - Multi-VPS sync manager (8.7KB)
+✓ xray-iplimit.cron            - Cron job template
+✓ README-XRAY-IPLIMIT.md       - Full documentation (11KB)
+✓ QUICK-START.md               - Quick start guide
+✓ install-guide.txt            - This file
+
+
+🚀 QUICK INSTALL (3 Steps):
+───────────────────────────────────────────────────────────────
+
+1️⃣  Upload to VPS:
+   scp *.sh root@YOUR_VPS_IP:/root/
+
+2️⃣  SSH and Run Installer:
+   ssh root@YOUR_VPS_IP
+   cd /root
+   chmod +x install-xray-iplimit.sh
+   ./install-xray-iplimit.sh
+
+3️⃣  Set User Limits:
+   xray-iplimit set username 2 60
+
+
+📖 DOCUMENTATION:
+───────────────────────────────────────────────────────────────
+• Quick Start: QUICK-START.md
+• Full Docs:   README-XRAY-IPLIMIT.md
+
+
+🔄 MULTI-VPS SYNC:
+───────────────────────────────────────────────────────────────
+On local machine:
+   chmod +x sync-config.sh
+   ./sync-config.sh
+
+
+✨ FEATURES:
+───────────────────────────────────────────────────────────────
+✓ Custom IP limit per user
+✓ Lock timeout (not permanent)
+✓ Auto-unlock after timeout
+✓ Auto-restart XRAY
+✓ Auto-backup configs
+✓ Multi-VPS sync support
+✓ Full logging
+✓ Interactive menu
+
+
+🎯 TESTED ON:
+───────────────────────────────────────────────────────────────
+• Debian 9, 10, 11
+• Ubuntu 18.04, 20.04, 22.04
+• XRAY-Core 1.8.x, 24.x, 25.x
+
+
+📞 SUPPORT:
+───────────────────────────────────────────────────────────────
+Check logs: tail -f /var/log/xray/iplimit.log
+Status:     xray-iplimit status
+
+
+═══════════════════════════════════════════════════════════════
+        Created by: Rovo Dev AI Assistant
+        Version: 3.1 | Date: 2025-12-26
+═══════════════════════════════════════════════════════════════

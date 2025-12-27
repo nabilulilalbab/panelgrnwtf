@@ -1,0 +1,59 @@
+╔════════════════════════════════════════════════════════════════╗
+║                                                                ║
+║     XRAY IP LIMITER v5.0 - Installation Package               ║
+║            Cloudflare Tolerance (3x multiplier)                ║
+║                                                                ║
+╚════════════════════════════════════════════════════════════════╝
+
+📦 PACKAGE CONTENTS:
+───────────────────────────────────────────────────────────────
+✓ xray-iplimit.sh             - Main script v5.0 (12KB)
+✓ menu-xray-iplimit.sh        - Interactive menu (4.5KB)
+✓ menu-vmess.sh               - Fixed menu-vmess for XRAY
+✓ install-xray-iplimit.sh     - Auto installer (7.3KB)
+✓ sync-config.sh              - Multi-VPS sync manager (8.7KB)
+✓ README-XRAY-IPLIMIT.md      - Full documentation
+✓ QUICK-START.md              - Quick start guide
+✓ example-*.conf              - Example configurations
+
+🚀 QUICK INSTALL:
+───────────────────────────────────────────────────────────────
+1. Upload ke VPS:
+   scp xray-iplimit-v5-package.tar.gz root@YOUR_VPS:/root/
+
+2. SSH ke VPS:
+   ssh root@YOUR_VPS
+   cd /root
+   tar -xzf xray-iplimit-v5-package.tar.gz
+   cd xray-iplimit-final
+
+3. Run installer:
+   chmod +x install-xray-iplimit.sh
+   ./install-xray-iplimit.sh
+
+4. Set user limits:
+   xray-iplimit set username 1 60
+   # username: max 1 device (auto 3 IPs tolerance), lock 60 min
+
+✨ NEW IN v5.0:
+───────────────────────────────────────────────────────────────
+✅ Cloudflare tolerance 3x (automatic)
+✅ Simple config: just set base limit
+✅ Fixed IP detection from XRAY log
+✅ Fixed menu-vmess IP display
+✅ Accurate violation detection
+✅ Production tested
+
+📖 DOCUMENTATION:
+───────────────────────────────────────────────────────────────
+• Quick Start: QUICK-START.md
+• Full Guide:  README-XRAY-IPLIMIT.md
+
+🔄 MULTI-VPS SYNC:
+───────────────────────────────────────────────────────────────
+chmod +x sync-config.sh
+./sync-config.sh
+
+═══════════════════════════════════════════════════════════════
+      Version: 5.0 | Date: 2025-12-26 | Tested: ✅
+═══════════════════════════════════════════════════════════════
