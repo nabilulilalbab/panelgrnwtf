@@ -45,8 +45,8 @@ export WARNING="${RED}\e[5m"
 export UNDERLINE="\e[4m"
 
 # // Exporting URL Host
-export Server_URL="raw.githubusercontent.com/NevermoreSSH/Blueblue/main/test"
-export Server1_URL="raw.githubusercontent.com/NevermoreSSH/Blueblue/main/limit"
+export Server_URL="raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/test"
+export Server1_URL="raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/limit"
 export Server_Port="443"
 export Server_IP="underfined"
 export Script_Mode="Stable"
@@ -142,7 +142,7 @@ mkdir -p /usr/local/etc/xray
 mkdir -p /var/lib/scrz-prem >/dev/null 2>&1
 echo "IP=$host" >> /var/lib/scrz-prem/ipvps.conf
 echo $host > /etc/xray/domain
-wget https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/cf.sh && chmod +x cf.sh && ./cf.sh
+wget https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/utils/cf.sh && chmod +x cf.sh && ./cf.sh
 
 sleep 2
 
@@ -151,76 +151,76 @@ echo -e "$white\033[0;34m┌─────────────────�
 echo -e "                          ⇱ INSTALL DOMAIN ⇲            "
 echo -e "$white\033[0;34m└─────────────────────────────────────────┘${NC}"
 sleep 1
-wget https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/cf.sh && chmod +x cf.sh && ./cf.sh
+wget https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/utils/cf.sh && chmod +x cf.sh && ./cf.sh
 #install jembot
 echo -e "$white\033[0;34m┌─────────────────────────────────────────┐${NC}"
 echo -e " \E[41;1;39m           ⇱ Install Jembot ⇲            \E[0m$NC"
 echo -e "$white\033[0;34m└─────────────────────────────────────────┘${NC}"
 sleep 1 
-wget -q https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/jembot.sh && chmod +x jembot.sh && ./jembot.sh
+wget -q https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/utils/jembot.sh && chmod +x jembot.sh && ./jembot.sh
 #install ssh-vpn
 echo -e "$white\033[0;34m┌─────────────────────────────────────────┐${NC}"
 echo -e " \E[41;1;39m          ⇱ Install SSH / WS ⇲           \E[0m$NC"
 echo -e "$white\033[0;34m└─────────────────────────────────────────┘${NC}"
 sleep 1
-wget -q https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/ssh-vpn.sh && chmod +x ssh-vpn.sh && ./ssh-vpn.sh
+wget -q https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/installer/ssh-vpn.sh && chmod +x ssh-vpn.sh && ./ssh-vpn.sh
 #install ins-xray
 echo -e "$white\033[0;34m┌─────────────────────────────────────────┐${NC}"
 echo -e " \E[41;1;39m            ⇱ Install Xray ⇲             \E[0m$NC"
 echo -e "$white\033[0;34m└─────────────────────────────────────────┘${NC}"
 sleep 1 
-wget -q https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/ins-xray.sh && chmod +x ins-xray.sh && ./ins-xray.sh
-wget -q https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/set-br.sh && chmod +x set-br.sh && ./set-br.sh
+wget -q https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/installer/ins-xray.sh && chmod +x ins-xray.sh && ./ins-xray.sh
+wget -q https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/installer/set-br.sh && chmod +x set-br.sh && ./set-br.sh
 
 # // Download Data
 echo -e "${GREEN}Download Data${NC}"
-wget -q -O /usr/bin/add-ws "https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/add-ws.sh"
-wget -q -O /usr/bin/add-ssws "https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/add-ssws.sh"
-wget -q -O /usr/bin/add-socks "https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/add-socks.sh"
-wget -q -O /usr/bin/add-vless "https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/add-vless.sh"
-wget -q -O /usr/bin/add-tr "https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/add-tr.sh"
-wget -q -O /usr/bin/add-trgo "https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/add-trgo.sh"
-wget -q -O /usr/bin/autoreboot "https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/autoreboot.sh"
-wget -q -O /usr/bin/restart "https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/restart.sh"
-wget -q -O /usr/bin/tendang "https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/tendang.sh"
-wget -q -O /usr/bin/clearlog "https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/clearlog.sh"
-wget -q -O /usr/bin/running "https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/running.sh"
-wget -q -O /usr/bin/cek-trafik "https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/cek-trafik.sh"
-wget -q -O /usr/bin/cek-speed "https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/speedtes_cli.py"
-wget -q -O /usr/bin/cek-bandwidth "https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/cek-bandwidth.sh"
-wget -q -O /usr/bin/cek-ram "https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/ram.sh"
-wget -q -O /usr/bin/limit-speed "https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/limit-speed.sh"
-wget -q -O /usr/bin/menu-vless "https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/menu-vless.sh"
-wget -q -O /usr/bin/menu-vmess "https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/menu-vmess.sh"
-wget -q -O /usr/bin/menu-socks "https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/menu-socks.sh"
-wget -q -O /usr/bin/menu-ss "https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/menu-ss.sh"
-wget -q -O /usr/bin/menu-trojan "https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/menu-trojan.sh"
-wget -q -O /usr/bin/menu-trgo "https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/menu-trgo.sh"
-wget -q -O /usr/bin/menu-ssh "https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/menu-ssh.sh"
-wget -q -O /usr/bin/menu-bckp "https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/menu-bckp-telegram.sh"
-wget -q -O /usr/bin/menu-bckp "https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/menu-bckp-github.sh"
-wget -q -O /usr/bin/bckp "https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/bckpbot.sh"
+wget -q -O /usr/bin/add-ws "https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/account/add-ws.sh"
+wget -q -O /usr/bin/add-ssws "https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/account/add-ssws.sh"
+wget -q -O /usr/bin/add-socks "https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/account/add-socks.sh"
+wget -q -O /usr/bin/add-vless "https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/account/add-vless.sh"
+wget -q -O /usr/bin/add-tr "https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/account/add-tr.sh"
+wget -q -O /usr/bin/add-trgo "https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/account/add-trgo.sh"
+wget -q -O /usr/bin/autoreboot "https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/utils/autoreboot.sh"
+wget -q -O /usr/bin/restart "https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/utils/restart.sh"
+wget -q -O /usr/bin/tendang "https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/utils/tendang.sh"
+wget -q -O /usr/bin/clearlog "https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/utils/clearlog.sh"
+wget -q -O /usr/bin/running "https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/utils/running.sh"
+wget -q -O /usr/bin/cek-trafik "https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/utils/cek-trafik.sh"
+wget -q -O /usr/bin/cek-speed "https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/utils/speedtes_cli.py"
+wget -q -O /usr/bin/cek-bandwidth "https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/utils/cek-bandwidth.sh"
+wget -q -O /usr/bin/cek-ram "https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/utils/ram.sh"
+wget -q -O /usr/bin/limit-speed "https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/utils/limit-speed.sh"
+wget -q -O /usr/bin/menu-vless "https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/menus/menu-vless.sh"
+wget -q -O /usr/bin/menu-vmess "https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/menus/menu-vmess.sh"
+wget -q -O /usr/bin/menu-socks "https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/menus/menu-socks.sh"
+wget -q -O /usr/bin/menu-ss "https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/menus/menu-ss.sh"
+wget -q -O /usr/bin/menu-trojan "https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/menus/menu-trojan.sh"
+wget -q -O /usr/bin/menu-trgo "https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/menus/menu-trgo.sh"
+wget -q -O /usr/bin/menu-ssh "https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/menus/menu-ssh.sh"
+wget -q -O /usr/bin/menu-bckp "https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/backup/menu-bckp-telegram.sh"
+wget -q -O /usr/bin/menu-bckp "https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/backup/menu-bckp-github.sh"
+wget -q -O /usr/bin/bckp "https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/utils/bckpbot.sh"
 
 # Download IP Limit & Quota System [NEW!]
 echo -e "${GREEN}Download IP Limit & Quota System${NC}"
-wget -q -O /usr/bin/xray-iplimit "https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/xray-iplimit.sh"
-wget -q -O /usr/bin/menu-quota "https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/menu-quota.sh"
-wget -q -O /usr/bin/menu-xray-iplimit "https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/menu-xray-iplimit.sh"
+wget -q -O /usr/bin/xray-iplimit "https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/core/xray-iplimit.sh"
+wget -q -O /usr/bin/menu-quota "https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/core/menu-quota.sh"
+wget -q -O /usr/bin/menu-xray-iplimit "https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/core/menu-xray-iplimit.sh"
 
 # Download Enhanced Backup & Restore [NEW!]
 echo -e "${GREEN}Download Enhanced Backup System${NC}"
-wget -q -O /root/backup.sh "https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/backup.sh"
-wget -q -O /root/restore.sh "https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/restore.sh"
-wget -q -O /usr/bin/backup-telegram-auto "https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/backup-telegram-auto.sh"
-wget -q -O /usr/bin/usernew "https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/usernew.sh"
+wget -q -O /root/backup.sh "https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/backup/backup.sh"
+wget -q -O /root/restore.sh "https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/backup/restore.sh"
+wget -q -O /usr/bin/backup-telegram-auto "https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/backup/backup-telegram-auto.sh"
+wget -q -O /usr/bin/usernew "https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/utils/usernew.sh"
 # wget -q -O /usr/bin/menu "https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/menu.sh"
-wget -q -O /usr/bin/menu "https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/menu4.sh"
-wget -q -O /usr/bin/wbm "https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/webmin.sh"
-wget -q -O /usr/bin/xp "https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/xp.sh"
-wget -q -O /usr/bin/update "https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/update.sh"
-wget -q -O /usr/bin/dns "https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/dns.sh"
-wget -q -O /usr/bin/netf "https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/netf.sh"
-wget -q -O /usr/bin/bbr "https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/bbr.sh"
+wget -q -O /usr/bin/menu "https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/menus/menu4.sh"
+wget -q -O /usr/bin/wbm "https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/utils/webmin.sh"
+wget -q -O /usr/bin/xp "https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/utils/xp.sh"
+wget -q -O /usr/bin/update "https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/utils/update.sh"
+wget -q -O /usr/bin/dns "https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/utils/dns.sh"
+wget -q -O /usr/bin/netf "https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/utils/netf.sh"
+wget -q -O /usr/bin/bbr "https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/utils/bbr.sh"
 #wget -q -O /usr/bin/del-xrays "https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/del-xrays.sh"
 #wget -q -O /usr/bin/user-xrays "https://raw.githubusercontent.com/nabilulilalbab/panelgrnwtf/main/user-xrays.sh"
 chmod +x /usr/bin/add-ws
