@@ -138,17 +138,18 @@ log_trial_deletion() {
 
 # Duration selection menu
 select_duration() {
-    echo "" >&2
-    echo "Select Trial Duration:" >&2
-    echo "  [1] 1 Hour" >&2
-    echo "  [2] 3 Hours" >&2
-    echo "  [3] 6 Hours" >&2
-    echo "  [4] 12 Hours" >&2
-    echo "  [5] 24 Hours" >&2
-    echo "  [6] Custom (enter hours)" >&2
-    echo "" >&2
-    echo -n "Select [1-6]: " >&2
-    read duration_choice
+    # Display menu directly to terminal (bypass capture)
+    echo "" > /dev/tty
+    echo "Select Trial Duration:" > /dev/tty
+    echo "  [1] 1 Hour" > /dev/tty
+    echo "  [2] 3 Hours" > /dev/tty
+    echo "  [3] 6 Hours" > /dev/tty
+    echo "  [4] 12 Hours" > /dev/tty
+    echo "  [5] 24 Hours" > /dev/tty
+    echo "  [6] Custom (enter hours)" > /dev/tty
+    echo "" > /dev/tty
+    echo -n "Select [1-6]: " > /dev/tty
+    read duration_choice < /dev/tty
     
     case $duration_choice in
         1) echo "1" ;;
@@ -157,8 +158,8 @@ select_duration() {
         4) echo "12" ;;
         5) echo "24" ;;
         6)
-            echo -n "Enter hours (1-72): " >&2
-            read custom_hours
+            echo -n "Enter hours (1-72): " > /dev/tty
+            read custom_hours < /dev/tty
             if [[ "$custom_hours" =~ ^[0-9]+$ ]] && [ "$custom_hours" -ge 1 ] && [ "$custom_hours" -le 72 ]; then
                 echo "$custom_hours"
             else
