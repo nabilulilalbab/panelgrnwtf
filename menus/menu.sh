@@ -255,6 +255,8 @@ echo -e "     ${BICyan}[${BIWhite}25${BICyan}] TENDANG ${BICyan}${BIYellow}${BIC
 echo -e " "
 echo -e "     ${BICyan}[${BIWhite}55${BICyan}] XRAY-CORE MENU ${BICyan}${BIYellow}${BICyan}${NC}"
 echo -e "     ${BICyan}[${BIWhite}56${BICyan}] XRAY IP LIMITER ${BICyan}${BIYellow}${BICyan}${NC}"
+echo -e "     ${BICyan}[${BIWhite}57${BICyan}] QUOTA MANAGEMENT ${BICyan}${BIYellow}${BICyan}${NC}"
+echo -e "     ${BICyan}[${BIWhite}58${BICyan}] TELEGRAM BOT SETUP ${BICyan}${BIYellow}${BICyan}${NC}"
 echo -e "     ${BICyan}[${BIWhite}66${BICyan}] INSTALL BBRPLUS ${BICyan}${BIYellow}${BICyan}${NC}"
 echo -e "     ${BICyan}[${BIWhite}77${BICyan}] SWAPRAM MENU ${BICyan}${BIYellow}${BICyan}${NC}"
 echo -e "     ${BICyan}[${BIWhite}88${BICyan}] BACKUP ${BICyan}${BIYellow}${BICyan}${NC}"
@@ -295,8 +297,10 @@ case $opt in
 23) clear ; dns ;;
 24) clear ; netf ;;
 25) clear ; tendang ;;
-56) clear ; menu-xray-iplimit ;;
 55) clear ; wget -q -O /usr/bin/xraychanger "https://raw.githubusercontent.com/NevermoreSSH/Xcore-custompath/main/xraychanger.sh" && chmod +x /usr/bin/xraychanger && xraychanger ;;
+56) clear ; menu-xray-iplimit ;;
+57) clear ; menu-quota ;;
+58) clear ; telegram-setup ;;
 66) clear ; bbr ;;
 77) clear ; wget -q -O /usr/bin/swapram "https://raw.githubusercontent.com/NevermoreSSH/swapram/main/swapram.sh" && chmod +x /usr/bin/swapram && swapram ;;
 88) clear ; backup ;;
