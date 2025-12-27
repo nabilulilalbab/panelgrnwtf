@@ -22,17 +22,18 @@ echo -e "${CYAN}╚════════════════════�
 echo ""
 
 # Select duration
-duration=$(select_duration)
+duration_raw=$(select_duration)
 
-# Debug: Check if duration was captured
-if [ "$duration" == "0" ] || [ -z "$duration" ]; then
-    echo -e "${RED}Invalid duration! Got: [$duration]${NC}" > /dev/tty
+# Clean duration value IMMEDIATELY (extract only the number)
+duration=$(echo "$duration_raw" | tr -d '\n\r\t ' | grep -o '[0-9][0-9]*' | head -1)
+
+# Validate duration
+if [ -z "$duration" ] || [ "$duration" -eq 0 ] 2>/dev/null; then
+    echo -e "${RED}Invalid duration! Could not extract number from input.${NC}" > /dev/tty
+    echo -e "${YELLOW}Debug: Raw value was: [$duration_raw]${NC}" > /dev/tty
     read -p "Press Enter to continue..." < /dev/tty
     exit 1
 fi
-
-# Clean duration value (remove any whitespace/newlines)
-duration=$(echo "$duration" | tr -d '\n\r ' | grep -o '[0-9]*' | head -1)
 
 echo "" > /dev/tty
 echo -e "${YELLOW}Creating SSH trial account (${duration}h)...${NC}" > /dev/tty
